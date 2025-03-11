@@ -12,11 +12,11 @@ import { queryKeys } from '@/constants';
 const HomeScreen = () => {
   const { data: favorites } = useQuery<FavoriteType[]>({
     queryKey: [queryKeys.favorite],
-    // queryFn: async () => {
-    //   return Products.map((product) => {
-    //     return { productId: product.id };
-    //   });
-    // },
+    queryFn: async () => {
+      return Products.map((product) => {
+        return { productId: product.id };
+      });
+    },
   });
   console.log('favorites', favorites);
   return (
