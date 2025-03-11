@@ -1,30 +1,79 @@
-import { FlatList, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SearchInput from '@/components/search-input';
+import CustomButton from '@/components/custom-button';
 import EmptyState from '@/components/empty-state';
 import ProductCard from '@/components/product-card';
 import { Products } from '@/data/products';
+import { FavoriteType } from '@/types/favorites-type';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '@/constants';
 
-export default function HomeScreen() {
+const HomeScreen = () => {
+  const { data: favorites } = useQuery<FavoriteType[]>({
+    queryKey: [queryKeys.favorite],
+    // queryFn: async () => {
+    //   return Products.map((product) => {
+    //     return { productId: product.id };
+    //   });
+    // },
+  });
+  console.log('favorites', favorites);
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <FlatList
-        data={Products}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ProductCard product={item} containerStyles='my-2' />}
-        ListHeaderComponent={() => (
-          <View className='flex my-6 px-4'>
-            <SearchInput />
-
-            <View className='w-full flex-1 pt-5'>
-              <Text className='text-lg font-pregular text-gray-100 mb-1'>
-                Products
-              </Text>
-            </View>
-          </View>
-        )}
-        ListEmptyComponent={() => <EmptyState title='No Product Found' />}
-      />
+      <ScrollView
+        contentContainerStyle={{
+          minHeight: '100%',
+        }}
+      >
+        <View className='flex my-6 px-4 space-y-6'>
+          <Text className='color-white'>Favorites</Text>
+        </View>
+        <FlatList
+          className='w-full flex-1'
+          data={favorites ?? []}
+          horizontal={true}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 70,
+          }}
+          keyExtractor={(item) => item.productId.toString()}
+          renderItem={({ item }) => {
+            if (!item) return null;
+            const product = Products.find(
+              (product) => product.id === item.productId
+            );
+            return product ? (
+              <ProductCard product={product} containerStyles='w-64 mx-2' />
+            ) : null;
+          }}
+          ListEmptyComponent={() => <EmptyState title='No Favorite Found' />}
+        />
+        <View className='flex my-6 px-4 space-y-6'>
+          <Text className='color-white'>Product</Text>
+        </View>
+        <FlatList
+          className='w-full flex-1'
+          data={Products}
+          horizontal={true}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 70,
+          }}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <ProductCard product={item} containerStyles='w-64 mx-2' />
+          )}
+          ListEmptyComponent={() => <EmptyState title='No Product Found' />}
+        />
+        <View className='w-full flex justify-center items-center px-4'>
+          <CustomButton
+            title='See All Products'
+            handlePress={() => router.push('/products')}
+            containerStyles='w-full mt-7'
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
-}
+};
+
+export default HomeScreen;

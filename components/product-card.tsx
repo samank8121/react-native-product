@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { euro } from '@/constants';
 // import IncreaseDecrease from '@/components/increase-decrease/increase-decrease';
-import { ProductType } from '@/types/ProductType';
+import { ProductType } from '@/types/product-type';
 import { router } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
@@ -29,7 +29,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onChange(count);
     }
   };
-
   return (
     <View
       className={`w-full h-[350px] bg-white relative overflow-hidden rounded-lg p-3 ${containerStyles}`}
@@ -60,23 +59,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
         {rate !== 0 && (
           <View className='flex flex-row items-center gap-1'>
-            <FontAwesome name='star' size={24} color='black' />
-            <Text className='text-blue-400 text-xs font-bold'>{rate}</Text>
+            <FontAwesome name='star' size={24} color='#FF9C01' />
+            <Text className='text-s font-bold'>{rate}</Text>
           </View>
         )}
         <View className='flex flex-row items-center gap-1'>
-          <Text className='text-blue-500 text-xl font-bold'>
+          <Text className='text-xl font-bold'>
             {Number(price) === 0 ? 'Out of stock' : price}
           </Text>
           {price !== 0 && (
-            <Text className='text-blue-500 text-xl font-bold'>{euro}</Text>
+            <Text className='text-xl font-bold'>{euro}</Text>
           )}
         </View>
-        <Text className='text-blue-400 text-base font-bold truncate'>
+        <Text className='text-base font-bold text-gray-700 truncate'>
           {caption}
         </Text>
         {weight && (
-          <Text className='text-gray-700 text-xs font-bold'>{weight}</Text>
+          <Text className='text-gray-600 text-xs font-bold'>{weight}</Text>
         )}
       </View>
     </View>

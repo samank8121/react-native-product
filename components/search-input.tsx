@@ -1,35 +1,35 @@
-import { useState } from "react";
-import { router, usePathname } from "expo-router";
-import { View, TouchableOpacity, TextInput, Alert } from "react-native";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useState } from 'react';
+import { View, TouchableOpacity, TextInput, Alert } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import commonQueryClient from '@/utils/get-query-client';
+import { queryKeys } from '@/constants';
+import { Products } from '@/data/products';
 
-const SearchInput = ({ initialQuery }:{initialQuery?:string}) => {
-  const pathname = usePathname();
-  const [query, setQuery] = useState(initialQuery || "");
-
+const SearchInput = ({ initialQuery }: { initialQuery?: string }) => {
+  const [query, setQuery] = useState(initialQuery || '');
+  const onSearch = () => {
+    if (query === '') {
+      commonQueryClient.setQueryData([queryKeys.products], Products);
+    } else {
+      const filteredProducts = Products.filter((product) =>
+        product.caption.toLowerCase().includes(query.toLowerCase())
+      );
+      commonQueryClient.setQueryData([queryKeys.products], filteredProducts);
+    }
+  };
   return (
-    <View className="flex flex-row items-center w-full h-16 px-4 rounded-2xl border-2 border-white focus:border-secondary">
+    <View className='flex flex-row items-center w-full h-16 px-4 rounded-2xl border-2 border-white focus:border-secondary'>
       <TextInput
-        className="text-base text-white flex-1"
+        className='text-base text-white flex-1'
         value={query}
-        placeholder="Search a product"
-        placeholderTextColor="#CDCDE0"
+        placeholder='Search a product'
+        placeholderTextColor='#CDCDE0'
         onChangeText={(e) => setQuery(e)}
       />
-
       <TouchableOpacity
-        onPress={() => {
-          if (query === "")
-            return Alert.alert(
-              "Missing Query",
-              "Please input something to search results across database"
-            );
-
-          if (pathname.startsWith("/search")) router.setParams({ query });
-          //else router.push(`/search/${query}`);
-        }}
+        onPress={onSearch}
       >
-        <FontAwesome name="search" size={16} color="white" />
+        <FontAwesome name='search' size={16} color='white' />
       </TouchableOpacity>
     </View>
   );

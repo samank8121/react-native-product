@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 interface TabIconProps {
   icon: any;
@@ -13,12 +13,12 @@ const TabIcon = ({ icon, color, name, focused }: TabIconProps) => {
   return (
     <View className='flex items-center justify-center gap-2'>
       {icon}
-      <Text
+      {/* <Text
         className={`${focused ? 'font-psemibold' : 'font-pregular'} text-xs`}
         style={{ color: color }}
       >
         {name}
-      </Text>
+      </Text> */}
     </View>
   );
 };
@@ -50,9 +50,24 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              icon={<FontAwesome name="heart-o" size={16} color="white" />}
+              icon={<FontAwesome5 name="home" size={16} color="white" />}
               color={color}
               name='Home'
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='favorites'
+        options={{
+          title: 'Favorites',
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon
+              icon={<FontAwesome5 name="heart" size={16} color="white" />}
+              color={color}
+              name='Favorites'
               focused={focused}
             />
           ),
@@ -65,7 +80,7 @@ export default function TabLayout() {
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              icon={<FontAwesome name="shopping-cart" size={16} color="white" />}
+              icon={<FontAwesome5 name="shopping-cart" size={16} color="white" />}
               color={color}
               name='Cart'
               focused={focused}
@@ -80,7 +95,7 @@ export default function TabLayout() {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={<FontAwesome name="user-o" size={16} color="white" />}
+                icon={<FontAwesome5 name="user" size={16} color="white" />}
                 color={color}
                 name="Profile"
                 focused={focused}
