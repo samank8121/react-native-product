@@ -4,7 +4,7 @@ import { euro } from '@/constants';
 // import IncreaseDecrease from '@/components/increase-decrease/increase-decrease';
 import { ProductType } from '@/types/product-type';
 import { router } from 'expo-router';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome from '@expo/vector-icons/FontAwesome5';
 
 interface ProductCardProps {
   product: ProductType;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { View, TouchableOpacity, TextInput, Alert } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { View, TouchableOpacity, TextInput } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome5';
 import commonQueryClient from '@/utils/get-query-client';
 import { queryKeys } from '@/constants';
 import { Products } from '@/data/products';

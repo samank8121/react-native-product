@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome from '@expo/vector-icons/FontAwesome5';
 
 const EmptyState = ({ title }: { title: string }) => {
   return (
