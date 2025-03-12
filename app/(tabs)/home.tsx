@@ -5,20 +5,11 @@ import CustomButton from '@/components/custom-button';
 import EmptyState from '@/components/empty-state';
 import ProductCard from '@/components/product-card';
 import { Products } from '@/data/products';
-import { FavoriteType } from '@/types/favorites-type';
-import { useQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/constants';
+import useFavorite from '@/hooks/use-favorite';
 
 const HomeScreen = () => {
-  const { data: favorites } = useQuery<FavoriteType[]>({
-    queryKey: [queryKeys.favorite],
-    queryFn: async () => {
-      return Products.map((product) => {
-        return { productId: product.id };
-      });
-    },
-  });
-  console.log('favorites', favorites);
+  const { favorites } = useFavorite();
+
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView
@@ -68,7 +59,7 @@ const HomeScreen = () => {
           <CustomButton
             title='See All Products'
             handlePress={() => router.push('/products')}
-            containerStyles='w-full mt-7'
+            containerStyles='w-full my-7'
           />
         </View>
       </ScrollView>
