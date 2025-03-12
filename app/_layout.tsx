@@ -26,7 +26,8 @@ export default function RootLayout() {
     <ClientProviders>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name='(tabs)' />
-        <Stack.Screen name='(products)' />
+        <Stack.Screen name='products' />
+        <Stack.Screen name='product/[slug]' />
         <Stack.Screen name='index' />
         <Stack.Screen name='+not-found' />
       </Stack>
