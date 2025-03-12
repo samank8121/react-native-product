@@ -19,7 +19,7 @@ const index = () => {
         <View className='w-full flex justify-center items-center  px-4'>
           <CustomButton
             title='Explore Products'
-            handlePress={() => router.push('/home')}
+            handlePress={() => router.replace('/home')}
             containerStyles='w-full mt-7'
           />
         </View>

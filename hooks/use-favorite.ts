@@ -4,7 +4,7 @@ import commonQueryClient from '@/utils/get-query-client';
 import { useQuery } from '@tanstack/react-query';
 
  const useFavorite = () => {
-  const { data: favorites, isFetching } = useQuery<FavoriteType[]>({
+  const { data: favorites, isFetching, isLoading } = useQuery<FavoriteType[]>({
     queryKey: [queryKeys.favorite],
     initialData: [],
   });
@@ -21,7 +21,7 @@ import { useQuery } from '@tanstack/react-query';
     );
   };
   const isFavorite = (id: number): boolean => {
-    if(isFetching) return false;
+    if(isFetching || isLoading) return false;
     const result = favorites && favorites.find((item) => item.productId === id);
     return !!result;
   };

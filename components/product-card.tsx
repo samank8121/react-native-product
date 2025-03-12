@@ -1,37 +1,31 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
-import { euro, queryKeys } from '@/constants';
-// import IncreaseDecrease from '@/components/increase-decrease/increase-decrease';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { euro } from '@/constants';
+import IncreaseDecrease from '@/components/increase-decrease';
 import { ProductType } from '@/types/product-type';
 import { router } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome5';
-import commonQueryClient from '@/utils/get-query-client';
-import { FavoriteType } from '@/types/favorites-type';
 import useFavorite from '@/hooks/use-favorite';
+import { useCart } from '@/hooks/use-cart';
+
 
 interface ProductCardProps {
   product: ProductType;
   containerStyles?: string;
-  value?: number;
   showAdd?: boolean;
   enableDeleteAlert?: boolean;
   showFav?: boolean;
-  className?: string;
-  onChange?: (value: number) => void;
   onClick?: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product: { id, caption, imageSrc, rate, price, discount, weight, slug },
-  value,
   containerStyles,
-  onChange,
 }) => {
   const { isFavorite, toggleFavorite } = useFavorite();
+  const { changeProduct, getProductCount } = useCart();
   const onChangeProduct = (count: number) => {
-    if (onChange) {
-      onChange(count);
-    }
+    changeProduct(id, count);
   };
   const onFavorite = () => {
     toggleFavorite(id);
@@ -62,19 +56,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </TouchableOpacity>
         <Image
           source={imageSrc}
+          resizeMode="contain"
           alt={caption}
           className='w-full h-[175px] object-cover rounded-md'
         />
       </TouchableOpacity>
       <View className='mt-2 flex flex-col items-start gap-1'>
         {price !== 0 ? (
-          // <IncreaseDecrease
-          //   className='self-end h-9'
-          //   value={value}
-          //   addBtnText='add'
-          //   onChange={onChangeProduct}
-          // />
-          <View className='self-end h-9' />
+          <IncreaseDecrease
+            containerStyles='self-end h-9'
+            value={getProductCount(id)}
+            addBtnText='Add'
+            onChange={onChangeProduct}
+          />
         ) : (
           <View className='self-end h-9' />
         )}

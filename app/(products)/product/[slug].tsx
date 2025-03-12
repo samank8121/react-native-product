@@ -27,7 +27,7 @@ const ProductScreen = () => {
   return (
     <SafeAreaView className='bg-primary h-full'>
       <View className='flex flex-col justify-center items-center w-full p-4 overflow-hidden'>
-        <Image source={imageSrc} className='w-64 h-64 rounded-xl' />
+        <Image source={imageSrc} className='w-64 h-64 rounded-xl' resizeMode="contain" />
       </View>
       <View className='mt-5 px-3 w-full items-left'>
         <Text className='text-2xl text-white font-bold'>{caption}</Text>
