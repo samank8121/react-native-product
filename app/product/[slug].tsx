@@ -38,7 +38,7 @@ const ProductScreen = () => {
       </View>
       <View className='mt-5 px-3 w-full items-left'>
         <Text className='text-2xl text-white font-bold'>{caption}</Text>
-        <View className='flex-row gap-4 items-center mt-2'>
+        <View className='flex-row gap-4 items-center my-4'>
           <Text className='text-white'>{weight}</Text>
           <Text className='text-white'>|</Text>
           {rate !== 0 && (

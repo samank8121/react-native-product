@@ -59,6 +59,7 @@ const CartScreen = () => {
                   <Text className='color-white font-bold'>{item.price}</Text>
                 </View>
                 <IncreaseDecrease
+                  isDark={false}
                   value={item.quantity}
                   onChange={(value) => {
                     changeProduct(item.id, value);
