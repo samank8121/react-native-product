@@ -6,10 +6,18 @@ import EmptyState from '@/components/empty-state';
 import ProductCard from '@/components/product-card';
 import { Products } from '@/data/products';
 import useFavorite from '@/hooks/use-favorite';
+import { useRef, useState } from 'react';
+import ScalableItem from '@/components/scalable-item';
 
 const HomeScreen = () => {
   const { favorites } = useFavorite();
+  const [activeIndex, setActiveIndex] = useState(0);
 
+  const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      setActiveIndex(viewableItems[0].index);
+    }
+  }).current;
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView
@@ -25,18 +33,21 @@ const HomeScreen = () => {
           data={favorites ?? []}
           horizontal={true}
           viewabilityConfig={{
-            itemVisiblePercentThreshold: 70,
+            itemVisiblePercentThreshold: 80,
           }}
           keyExtractor={(item) => item.productId.toString()}
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             if (!item) return null;
             const product = Products.find(
               (product) => product.id === item.productId
             );
             return product ? (
-              <ProductCard product={product} containerStyles='w-64 mx-2' />
+              <ScalableItem isActive={index === activeIndex}>
+                <ProductCard product={product} containerStyles='w-64 mx-2' />
+              </ScalableItem>
             ) : null;
           }}
+          onViewableItemsChanged={onViewableItemsChanged}
           ListEmptyComponent={() => <EmptyState title='No Favorite Found' />}
         />
         <View className='flex my-6 px-4 space-y-6'>
