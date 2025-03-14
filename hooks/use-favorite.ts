@@ -13,10 +13,13 @@ import { useQuery } from '@tanstack/react-query';
     commonQueryClient.setQueryData(
       [queryKeys.favorite],
       (oldData: FavoriteType[]) => {
-        if (oldData && Array.isArray(oldData) && oldData.findIndex((item) => item.productId === id)!==-1) {
-          return oldData.filter((item) => item.productId !== id);
+        if(oldData && Array.isArray(oldData)){
+          if (oldData.findIndex((item) => item.productId === id)!==-1) {
+            return oldData.filter((item) => item.productId !== id);
+          }
+          return [...oldData, { productId: id }];
         }
-        return [...oldData, { productId: id }];
+        return [{ productId: id }];        
       }
     );
   };

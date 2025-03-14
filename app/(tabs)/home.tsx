@@ -9,6 +9,8 @@ import useFavorite from '@/hooks/use-favorite';
 import { useRef, useState } from 'react';
 import ScalableItem from '@/components/scalable-item';
 
+import ShowMoreFlatList from '@/components/show-more-flat-list';
+
 const HomeScreen = () => {
   const { favorites } = useFavorite();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -18,6 +20,24 @@ const HomeScreen = () => {
       setActiveIndex(viewableItems[0].index);
     }
   }).current;
+
+  const getFavorites = () => {
+    if (Array.isArray(favorites) && favorites.length > 0) {
+      const favoriteItems = favorites.slice(0, 3).map((item, index) => {
+        const product = Products.find(
+          (product) => product.id === item.productId
+        );
+        return product ? (
+          <ScalableItem isActive={index === activeIndex}>
+            <ProductCard product={product} containerStyles='w-64 mx-2' />
+          </ScalableItem>
+        ) : null;
+      });
+     
+      return favoriteItems;
+    }
+    return [];
+  };
   return (
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView
@@ -28,27 +48,16 @@ const HomeScreen = () => {
         <View className='flex my-6 px-4 space-y-6'>
           <Text className='color-white'>Favorites</Text>
         </View>
-        <FlatList
-          className='w-full flex-1'
-          data={favorites ?? []}
-          horizontal={true}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 80,
-          }}
-          keyExtractor={(item) => item.productId.toString()}
-          renderItem={({ item, index }) => {
-            if (!item) return null;
-            const product = Products.find(
-              (product) => product.id === item.productId
-            );
-            return product ? (
-              <ScalableItem isActive={index === activeIndex}>
-                <ProductCard product={product} containerStyles='w-64 mx-2' />
-              </ScalableItem>
-            ) : null;
-          }}
+        <ShowMoreFlatList
+          items={getFavorites}
           onViewableItemsChanged={onViewableItemsChanged}
-          ListEmptyComponent={() => <EmptyState title='No Favorite Found' />}
+          emptyState={
+            <EmptyState
+              title='No Favorite Found'
+              containerStyles='h-[350px]'
+            />
+          }
+          onShowMorePress={() => router.push('/favorites')}
         />
         <View className='flex my-6 px-4 space-y-6'>
           <Text className='color-white'>Product</Text>
